@@ -47,11 +47,8 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.144742, 4, -0.0527024 )
 shape = SubResource( 6 )
 
-[node name="SpringArm" type="SpringArm" parent="player"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -60.7387, 15.4047, 7.31192 )
-
-[node name="Camera" type="Camera" parent="player/SpringArm"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 22.6746, -0.00859261 )
+[node name="Camera" type="Camera" parent="player"]
+transform = Transform( 0.00240438, 0.00374318, -0.99999, 0.0153506, 0.999875, 0.00377966, 0.999879, -0.0153595, 0.00234662, -29.0495, 15.0304, -0.911892 )
 
 [node name="CSGBox" type="CSGBox" parent="."]
 transform = Transform( 50, 0, 0, 0, 0.1, 0, 0, 0, 50, 0, 0, 0 )

@@ -30,6 +30,10 @@ config/name="Tombstone"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
+[global]
+
+input=false
+
 [input]
 
 moveup={
