@@ -27,8 +27,16 @@ _global_script_class_icons={
 [application]
 
 config/name="Tombstone"
-run/main_scene="res://main.tscn"
+run/main_scene="res://new scene.tscn"
 config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/zylann.hterrain/plugin.cfg" )
+
+[global]
+
+addons=false
 
 [input]
 
@@ -64,5 +72,4 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
-quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"
