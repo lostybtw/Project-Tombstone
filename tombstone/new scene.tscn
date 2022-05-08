@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=1]
 [ext_resource path="res://addons/zylann.hterrain/hterrain_texture_set.gd" type="Script" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://slot0_albedo_bump.packed_tex" type="Texture" id=4]
 [ext_resource path="res://terrain_data/data.hterrain" type="Resource" id=5]
 [ext_resource path="res://untitled.fbx" type="PackedScene" id=6]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://CCO_Male_base_mesh_standing.fbx" type="PackedScene" id=8]
+[ext_resource path="res://movement.gd" type="Script" id=9]
 
 [sub_resource type="ProceduralSky" id=1]
 
@@ -26,9 +29,6 @@ textures = [ [ ExtResource( 4 ), null ], [ ExtResource( 3 ), null ] ]
 transform = Transform( 1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 0, 0 )
 light_color = Color( 0.996078, 1, 0.654902, 1 )
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -0.0925301, -0.0690646, 0.993312, 0.00129054, 0.997582, 0.0694818, -0.995709, 0.00771107, -0.0922173, 59.9366, 14.4973, 226.29 )
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
 
@@ -48,5 +48,12 @@ shader_params/u_depth_blending = true
 shader_params/u_triplanar = false
 shader_params/u_tile_reduction = Plane( 0, 0, 0, 0 )
 
-[node name="untitled" parent="HTerrain" instance=ExtResource( 6 )]
-transform = Transform( 0.00050055, -0.112812, -0.993616, -0.000157514, 0.993616, -0.112812, 1, 0.000212988, 0.00047958, 47.0949, 13.6701, 226.824 )
+[node name="spinx" parent="HTerrain" instance=ExtResource( 6 )]
+transform = Transform( -8.88149e-05, 0.564022, 4.96809, -0.000780385, 4.96809, -0.564022, -5, -0.000785423, -2.17162e-07, 221.055, 48.5036, 248.595 )
+
+[node name="Player" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 151, 1.5, 219 )
+script = ExtResource( 9 )
+
+[node name="CCO_Male_base_mesh_standing" parent="." instance=ExtResource( 8 )]
+transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 79, 0, 204 )

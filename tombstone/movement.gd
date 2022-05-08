@@ -1,35 +1,65 @@
 extends KinematicBody
-export var max_speed = 12
-export var gravity = 70
-export var jump_impulse = 25
 
-var velocity = Vector3.ZERO
-var _snap_vector := Vector3.DOWN
+export var speed : float = 20
+export var acceleration : float = 15
+export var air_acceleration : float = 5
+export var gravity : float = 0.98
+export var max_terminal_velocity : float = 54
+export var jump_power : float = 20
 
-onready var _spring_arm : SpringArm = $SpringArm
+export(float, 0.1, 1) var mouse_sensitivity : float = 0.3
+export(float, -90, 0) var min_pitch : float = -90
+export(float, 0, 90) var max_pitch : float = 90
+
+var velocity : Vector3
+var y_velocity : float
+
+onready var camera_pivot = $CameraPivot
+onready var camera = $CameraPivot/CameraBoom/Camera
+
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _process(delta):
+	if Input.is_action_just_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		
+func _input(event):
+	if event is InputEventMouseMotion:
+		rotation_degrees.y -= event.relative.x * mouse_sensitivity
+		camera_pivot.rotation_degrees.x -= event.relative.y * mouse_sensitivity
+		camera_pivot.rotation_degrees.x = clamp(camera_pivot.rotation_degrees.x, min_pitch, max_pitch)
 
 func _physics_process(delta):
-	var input_vector = get_input_vector()
-	apply_movement(input_vector)
-	apply_gravity(delta)
-	velocity = move_and_slide(velocity , Vector3.UP)
+	handle_movement(delta)
 
-func get_input_vector():
-	var input_vector = Vector3.ZERO
-	input_vector.z = Input.get_action_strength("moveright") - Input.get_action_strength("moveleft")
-	input_vector.x = Input.get_action_strength("moveup") - Input.get_action_strength("movedown")
-	input_vector = input_vector.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
-	return input_vector.normalized()
+func handle_movement(delta):
+	var direction = Vector3()
 	
-func apply_movement(input_vector):
-	velocity.x = input_vector.x * max_speed
-	velocity.z = input_vector.z * max_speed
-
-func apply_gravity(delta):
-	velocity.y -= gravity * delta 
+	if Input.is_action_pressed("move_forward"):
+		direction -= transform.basis.z
 	
-var just_landed := is_on_floor() and _snap_vector == Vector3.ZERO
-var is_jumping := is_on_floor() and Input.is_action_just_pressed("jump")
-
-func _process(_delta: float):
-	_spring_arm.translation = translation
+	if Input.is_action_pressed("move_backward"):
+		direction += transform.basis.z
+		
+	if Input.is_action_pressed("move_left"):
+		direction -= transform.basis.x
+	
+	if Input.is_action_pressed("move_right"):
+		direction += transform.basis.x
+	
+	direction = direction.normalized()
+	
+	var accel = acceleration if is_on_floor() else air_acceleration
+	velocity = velocity.linear_interpolate(direction * speed, accel * delta)
+	
+	if is_on_floor():
+		y_velocity = -0.01
+	else:
+		y_velocity = clamp(y_velocity - gravity, -max_terminal_velocity, max_terminal_velocity)
+	
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		y_velocity = jump_power
+	
+	velocity.y = y_velocity
+	velocity = move_and_slide(velocity, Vector3.UP)
