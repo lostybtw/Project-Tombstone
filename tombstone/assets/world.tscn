@@ -1,0 +1,76 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=1]
+[ext_resource path="res://addons/zylann.hterrain/hterrain_texture_set.gd" type="Script" id=2]
+[ext_resource path="res://scripts/movement.gd" type="Script" id=3]
+[ext_resource path="res://slot0_normal_roughness.packed_tex" type="Texture" id=4]
+[ext_resource path="res://assets/untitled.fbx" type="PackedScene" id=5]
+[ext_resource path="res://terrain_data/data.hterrain" type="Resource" id=7]
+[ext_resource path="res://assets/Player.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/CCO_Male_base_mesh_standing.fbx" type="PackedScene" id=9]
+
+[sub_resource type="ProceduralSky" id=1]
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+tonemap_mode = 3
+adjustment_enabled = true
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 2 )
+mode = 0
+textures = [ [ null, null ], [ ExtResource( 4 ), null ] ]
+
+[sub_resource type="BoxShape" id=4]
+
+[sub_resource type="BoxShape" id=5]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 0, 0 )
+light_color = Color( 0.996078, 1, 0.654902, 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="HTerrain" type="Spatial" parent="."]
+script = ExtResource( 1 )
+_terrain_data = ExtResource( 7 )
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource( 3 )
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = false
+shader_params/u_tile_reduction = Plane( 0, 0, 0, 0 )
+
+[node name="spinx" parent="HTerrain" instance=ExtResource( 5 )]
+transform = Transform( 0.074351, 0.849839, 6.94782, 0.605543, 6.92138, -0.853085, -6.97336, 0.61009, -3.03699e-07, 238.503, 87.8287, 247.628 )
+
+[node name="Area" type="Area" parent="HTerrain/spinx"]
+transform = Transform( 80, 2.79397e-09, -4.20869e-10, -1.86265e-09, 70, 2.86157e-06, 2.07365e-10, -1.90687e-06, 80, -7.62939e-06, 1.90735e-06, 11.2857 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HTerrain/spinx/Area"]
+transform = Transform( 1, -2.91038e-11, 5.42144e-12, 0, 1, 2.98101e-08, 3.73035e-13, 5.97223e-12, 1, 0, 0, 0 )
+shape = SubResource( 4 )
+
+[node name="Player" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 151, 1.5, 219 )
+script = ExtResource( 3 )
+
+[node name="CCO_Male_base_mesh_standing" parent="." instance=ExtResource( 9 )]
+transform = Transform( -7.07107, 0, 7.07107, 0, 10, 0, -7.07107, 0, -7.07107, 156.586, 0, 258 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="CSGBox" type="CSGBox" parent="StaticBody"]
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 5 )

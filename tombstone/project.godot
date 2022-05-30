@@ -28,7 +28,6 @@ _global_script_class_icons={
 
 config/name="Tombstone"
 run/main_scene="res://new scene.tscn"
-config/icon="res://icon.png"
 
 [editor_plugins]
 
