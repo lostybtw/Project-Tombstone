@@ -8,34 +8,15 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "ResourceFormatLoader",
-"class": "HTerrainDataLoader",
-"language": "GDScript",
-"path": "res://addons/zylann.hterrain/hterrain_resource_loader.gd"
-}, {
-"base": "ResourceFormatSaver",
-"class": "HTerrainDataSaver",
-"language": "GDScript",
-"path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"HTerrainDataLoader": "",
-"HTerrainDataSaver": ""
 }
 
 [application]
 
-config/name="Tombstone"
-run/main_scene="res://new scene.tscn"
-
-[editor_plugins]
-
-enabled=PoolStringArray( "res://addons/zylann.hterrain/plugin.cfg" )
-
-[global]
-
-addons=false
+config/name="ThirdPersonController"
+run/main_scene="res://Scenes/game.tscn"
+config/icon="res://icon.png"
 
 [input]
 
@@ -67,12 +48,8 @@ jump={
 
 [layer_names]
 
-3d_physics/layer_1="Environment"
-3d_physics/layer_2="Player"
-
-[physics]
-
-common/enable_pause_aware_picking=true
+3d_physics/layer_1="environment"
+3d_physics/layer_2="player"
 
 [rendering]
 
